@@ -23,20 +23,28 @@ def listOfAllAppByDepartments(d):
 
     return tempDict
 
+
 def noOfCPUMemByDep(d):
 
     group = d.groupby('Group')
-    #print(group)
-    cpu_json = group['CPU cores'].agg([np.sum]).to_json(orient='index')
-    #print(group['CPU cores'].agg([np.sum]))
-    memory = group['RAM (MB)'].agg([np.sum]).to_json(orient='index')
-    return [("CPU", cpu_json), ("Memory", memory)]
+    ls = d["Group"].unique()
+    cpu_json = group['CPU cores'].agg([np.sum])
+    memory = group['RAM (MB)'].agg([np.sum])
+
+    cpuMemDictDept = []
+    i = 0
+    for l in ls:
+        cpuMemDictDept.append({"ID": i, "Department": l, "CPU": cpu_json["sum"][l], "Memory": memory["sum"][l]})
+        i = i + 1
+
+    return cpuMemDictDept
 
 def noOfCPUMemByApp(d):
 
     group = d.groupby('Application')
-    cpu_json = group['CPU cores'].agg([np.sum]).to_json(orient='index')
-    memory = group['RAM (MB)'].agg([np.sum]).to_json(orient='index')
+    ls = d["Application"].unique()
+    cpu_json = group['CPU cores'].agg([np.sum])
+    memory = group['RAM (MB)'].agg([np.sum])
     return [("CPU", cpu_json), ("Memory", memory)]
 
 def noOfCPUMemByDataCenters(d):
