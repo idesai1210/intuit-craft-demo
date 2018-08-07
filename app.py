@@ -30,6 +30,11 @@ def listOfAppsByDept():
     listOfApps = s1.listOfAllAppByDepartments(df1)
     return render_template('listOfAppsByDept.html', items=listOfApps)
 
+@app.route('/cpuMemByDept', methods=['GET'])
+def cpuMemByDept():
+    cpuMemByD = s1.noOfCPUMemByDep(df1)
+    return render_template('cpuMemByDept.html', items=cpuMemByD)
+
 
 # @app.route('/new', methods=['POST'])
 # def new():
