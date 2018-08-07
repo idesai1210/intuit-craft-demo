@@ -41,6 +41,12 @@ def cpuMemByApp():
     return render_template('cpuMemByApp.html', items=cpuMemByA)
 
 
+@app.route('/cpuMemByDC', methods=['GET'])
+def cpuMemByDC():
+    cpuMemBydc = s1.noOfCPUMemByDataCenters(df1)
+    return render_template('cpuMemByDC.html', items=cpuMemBydc)
+
+
 # @app.route('/new', methods=['POST'])
 # def new():
 #

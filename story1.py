@@ -57,9 +57,17 @@ def noOfCPUMemByApp(d):
 def noOfCPUMemByDataCenters(d):
 
     group = d.groupby('Site')
-    cpu_json = group['CPU cores'].agg([np.sum]).to_json(orient='index')
-    memory = group['RAM (MB)'].agg([np.sum]).to_json(orient='index')
-    return [("CPU", cpu_json), ("Memory", memory)]
+    ls = d["Site"].unique()
+    cpu_json = group['CPU cores'].agg([np.sum])
+    memory = group['RAM (MB)'].agg([np.sum])
+    cpuMemDictDC = []
+    i = 0
+    for l in ls:
+        cpuMemDictDC.append({"ID": i, "Site": l, "CPU": cpu_json["sum"][l], "Memory": memory["sum"][l]})
+        i = i + 1
+
+    return cpuMemDictDC
+
 
 def main():
     # Assign spreadsheet filename to `file`
