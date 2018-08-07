@@ -8,12 +8,15 @@ def listOfAllDepartments(d):
 
 def listOfAllAppByDepartments(d):
     ls = d["Group"].unique()
-    tempList = []
+    tempDict = []
+    i = 0
     for l in ls:
         listOfApp = list(d.loc[d['Group'] == l]["Application"].unique())
-        tempList.append((l, listOfApp))
+        listOfApp = ','.join(listOfApp)
+        tempDict.append({"ID": i, "Department": l, "Applications": listOfApp})
+        i = i+1
 
-    return tempList
+    return tempDict
 
 def noOfCPUMemByDep(d):
 
