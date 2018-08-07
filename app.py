@@ -21,14 +21,14 @@ df1 = xl.parse('Page 1')
 @app.route('/')
 def todo():
     # Render default page template
-    first = s1.listOfAllAppByDepartments(df1)
-    return render_template('index.html', items=first)
+    listOfDept = s1.listOfAllDepartments(df1)
+    return render_template('listOfAllDepartments.html', items=listOfDept)
 
 
 @app.route('/listOfAppsByDept', methods=['GET'])
 def listOfAppsByDept():
-    first = s1.listOfAllAppByDepartments(df1)
-    return render_template('listOfAppsByDept.html', items=first)
+    listOfApps = s1.listOfAllAppByDepartments(df1)
+    return render_template('listOfAppsByDept.html', items=listOfApps)
 
 
 # @app.route('/new', methods=['POST'])

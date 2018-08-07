@@ -21,7 +21,7 @@
   <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>
   <div class="container">
   <ul class="nav nav-pills">
-    <li class="active"><a href="#">Home</a></li>
+    <li class="active"><a href="/">List of All Departments</a></li>
     <li><a href="/listOfAppsByDept">List of Applictions By Department</a></li>
     <li><a href="#">Menu 2</a></li>
     <li><a href="#">Menu 3</a></li>
@@ -32,7 +32,6 @@
       <tr>
         <th data-field="ID">ID</th>
         <th data-field="Department">Department</th>
-        <th data-field="Applications">Applications</th>
       </tr>
     </thead>
   <tbody>
@@ -40,7 +39,6 @@
       <tr>
         <td>{{ i['ID'] }}</td>
         <td>{{ i.Department }}</td>
-        <td>{{ i.Applications }}</td>
       </tr>
     {% endfor %}
   </tbody>
