@@ -1,6 +1,7 @@
 #import os
 from flask import Flask, redirect, url_for, request, render_template, json
 import story1 as s1
+import story2 as s2
 import pandas as pd
 import xlrd
 import numpy as np
@@ -46,6 +47,11 @@ def cpuMemByDC():
     cpuMemBydc = s1.noOfCPUMemByDataCenters(df1)
     return render_template('cpuMemByDC.html', items=cpuMemBydc)
 
+
+@app.route('/cost', methods=['GET'])
+def cost():
+    costByDept = s2.Estimate(df1)
+    return render_template('cost.html', items=costByDept)
 
 # @app.route('/new', methods=['POST'])
 # def new():
