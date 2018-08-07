@@ -18,6 +18,11 @@ xl = pd.ExcelFile(file)
 # Load a sheet into a DataFrame by name: df1
 df1 = xl.parse('Page 1')
 
+file = 'prices.xlsx'
+xl1 = pd.ExcelFile(file)
+# print(xl1.sheet_names)
+df2 = xl1.parse('Sheet1')
+
 @app.route('/')
 def todo():
     # Render default page template
@@ -50,20 +55,8 @@ def cpuMemByDC():
 
 @app.route('/cost', methods=['GET'])
 def cost():
-    costByDept = s2.Estimate(df1)
+    costByDept = s2.Estimate(df1, df2)
     return render_template('cost.html', items=costByDept)
-
-# @app.route('/new', methods=['POST'])
-# def new():
-#
-#     item_doc = {
-#         'name': request.form['name'],
-#         'description': request.form['description']
-#     }
-#     # Save items to database
-#     db.todos.insert_one(item_doc)
-#
-#     return redirect(url_for('todo'))
 
 
 if __name__ == "__main__":

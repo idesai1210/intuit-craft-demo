@@ -3,15 +3,12 @@ import xlrd
 import numpy as np
 
 
-def Estimate(d):
+def Estimate(d, d2):
 
     # Load a sheet into a DataFrame by name: df1
     df1 = d
 
-    file = 'prices.xlsx'
-    xl1 = pd.ExcelFile(file)
-    # print(xl1.sheet_names)
-    df2 = xl1.parse('Sheet1')
+    df2 = d2
 
     # print(df1)
     # print(df2)
