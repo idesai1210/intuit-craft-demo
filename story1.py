@@ -4,39 +4,70 @@ import numpy as np
 
 def listOfAllDepartments(d):
     ls = list(d["Group"].unique())
-    return ls
+    deptDict = []
+    i = 0
+    for l in ls:
+        deptDict.append({"ID": i, "Department": l})
+        i = i + 1
+    return deptDict
 
 def listOfAllAppByDepartments(d):
     ls = d["Group"].unique()
-    tempList = []
+    tempDict = []
+    i = 0
     for l in ls:
         listOfApp = list(d.loc[d['Group'] == l]["Application"].unique())
-        tempList.append((l, listOfApp))
+        listOfApp = ','.join(listOfApp)
+        tempDict.append({"ID": i, "Department": l, "Applications": listOfApp})
+        i = i+1
 
-    return tempList
+    return tempDict
+
 
 def noOfCPUMemByDep(d):
 
     group = d.groupby('Group')
-    #print(group)
-    cpu_json = group['CPU cores'].agg([np.sum]).to_json(orient='index')
-    #print(group['CPU cores'].agg([np.sum]))
-    memory = group['RAM (MB)'].agg([np.sum]).to_json(orient='index')
-    return [("CPU", cpu_json), ("Memory", memory)]
+    ls = d["Group"].unique()
+    cpu_json = group['CPU cores'].agg([np.sum])
+    memory = group['RAM (MB)'].agg([np.sum])
+
+    cpuMemDictDept = []
+    i = 0
+    for l in ls:
+        cpuMemDictDept.append({"ID": i, "Department": l, "CPU": cpu_json["sum"][l], "Memory": memory["sum"][l]})
+        i = i + 1
+
+    return cpuMemDictDept
 
 def noOfCPUMemByApp(d):
 
     group = d.groupby('Application')
-    cpu_json = group['CPU cores'].agg([np.sum]).to_json(orient='index')
-    memory = group['RAM (MB)'].agg([np.sum]).to_json(orient='index')
-    return [("CPU", cpu_json), ("Memory", memory)]
+    ls = d["Application"].unique()
+    cpu_json = group['CPU cores'].agg([np.sum])
+    memory = group['RAM (MB)'].agg([np.sum])
+    cpuMemDictApp = []
+    i = 0
+    for l in ls:
+        cpuMemDictApp.append({"ID": i, "Application": l, "CPU": cpu_json["sum"][l], "Memory": memory["sum"][l]})
+        i = i + 1
+
+    return cpuMemDictApp
+
 
 def noOfCPUMemByDataCenters(d):
 
     group = d.groupby('Site')
-    cpu_json = group['CPU cores'].agg([np.sum]).to_json(orient='index')
-    memory = group['RAM (MB)'].agg([np.sum]).to_json(orient='index')
-    return [("CPU", cpu_json), ("Memory", memory)]
+    ls = d["Site"].unique()
+    cpu_json = group['CPU cores'].agg([np.sum])
+    memory = group['RAM (MB)'].agg([np.sum])
+    cpuMemDictDC = []
+    i = 0
+    for l in ls:
+        cpuMemDictDC.append({"ID": i, "Site": l, "CPU": cpu_json["sum"][l], "Memory": memory["sum"][l]})
+        i = i + 1
+
+    return cpuMemDictDC
+
 
 def main():
     # Assign spreadsheet filename to `file`

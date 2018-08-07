@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/bootstrap-table.min.js"></script>
+
+
+</head>
+<body>
+
+<div class="container">
+  <h2>Basic Table</h2>
+  <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>
+  <div class="container">
+  <ul class="nav nav-pills">
+    <li><a href="/">List of All Departments</a></li>
+    <li><a href="/listOfAppsByDept">List of Applictions By Department</a></li>
+    <li><a href="/cpuMemByDept">CPU and Memory Usage By Department</a></li>
+    <li><a href="/cpuMemByApp">CPU and Memory Usage By Application</a></li>
+    <li class="active"><a href="/cpuMemByDC">CPU and Memory Usage By Data Centers</a></li>
+  </ul>
+</div>
+  <table class="table" id="table">
+    <thead>
+      <tr>
+        <th data-field="ID">ID</th>
+        <th data-field="Site">Site</th>
+        <th data-field="CPU">CPU</th>
+        <th data-field="Memory">Memory (MB)</th>
+      </tr>
+    </thead>
+  <tbody>
+    {% for i in items %}
+      <tr>
+        <td>{{ i.ID }}</td>
+        <td>{{ i.Site }}</td>
+        <td>{{ i.CPU }}</td>
+          <td>{{ i.Memory}}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+  </table>
+</div>
+
+</body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+</script>
+</html>
