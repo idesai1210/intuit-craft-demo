@@ -14,7 +14,13 @@
 <div class="container">
   <h2>Basic Table</h2>
   <p>The .table class adds basic styling (light padding and horizontal dividers) to a table:</p>
-  <table class="table">
+  <table class="table" id="table"
+           data-toggle="table"
+           data-height="460"
+           data-search="true"
+           data-ajax="ajaxRequest"
+           data-side-pagination="server"
+           data-pagination="true">
     <thead>
       <tr>
         <th>Firstname</th>
@@ -43,4 +49,19 @@
 </div>
 
 </body>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(document).ready(function() {
+      $.ajax({
+          url: '/first',
+          type: 'GET',
+          success: function (response) {
+              console.log(response);
+          },
+          error: function (error) {
+              console.log(error);
+          }
+      });
+  });
+</script>
 </html>
