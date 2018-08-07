@@ -4,7 +4,12 @@ import numpy as np
 
 def listOfAllDepartments(d):
     ls = list(d["Group"].unique())
-    return ls
+    deptDict = []
+    i = 0
+    for l in ls:
+        deptDict.append({"ID": i, "Department": l})
+        i = i + 1
+    return deptDict
 
 def listOfAllAppByDepartments(d):
     ls = d["Group"].unique()
