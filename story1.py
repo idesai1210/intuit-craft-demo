@@ -68,6 +68,8 @@ def main():
     noOfCPUMemByApplication = noOfCPUMemByApp(df1)
     print(noOfCPUMemByApplication)
 
+
+
     print(listOfAllAppByDepartments(df1))
 
 
