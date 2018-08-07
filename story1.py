@@ -45,7 +45,14 @@ def noOfCPUMemByApp(d):
     ls = d["Application"].unique()
     cpu_json = group['CPU cores'].agg([np.sum])
     memory = group['RAM (MB)'].agg([np.sum])
-    return [("CPU", cpu_json), ("Memory", memory)]
+    cpuMemDictApp = []
+    i = 0
+    for l in ls:
+        cpuMemDictApp.append({"ID": i, "Application": l, "CPU": cpu_json["sum"][l], "Memory": memory["sum"][l]})
+        i = i + 1
+
+    return cpuMemDictApp
+
 
 def noOfCPUMemByDataCenters(d):
 
