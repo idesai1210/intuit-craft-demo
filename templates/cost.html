@@ -22,28 +22,28 @@
   <ul class="nav nav-pills">
     <li><a href="/">List of All Departments</a></li>
     <li><a href="/listOfAppsByDept">List of Applictions By Department</a></li>
-    <li class="active"><a href="/cpuMemByDept">CPU and Memory Usage By Department</a></li>
+    <li><a href="/cpuMemByDept">CPU and Memory Usage By Department</a></li>
     <li><a href="/cpuMemByApp">CPU and Memory Usage By Application</a></li>
     <li><a href="/cpuMemByDC">CPU and Memory Usage By Data Centers</a></li>
-    <li><a href="/cost">Cost of Migration by Deparment</a></li>
+    <li class="active"><a href="/cost">Cost of Migration by Deparment</a></li>
   </ul>
 </div>
   <table class="table" id="table">
     <thead>
       <tr>
-        <th data-field="ID">ID</th>
-        <th data-field="Department">Department</th>
-        <th data-field="CPU">CPU</th>
-        <th data-field="Memory">Memory (MB)</th>
+        <th data-field="Department">Site</th>
+        <th data-field="Year1">Year 1</th>
+        <th data-field="Year2">Year 2</th>
+        <th data-field="Year3">Year 3</th>
       </tr>
     </thead>
   <tbody>
     {% for i in items %}
       <tr>
-        <td>{{ i.ID }}</td>
         <td>{{ i.Department }}</td>
-        <td>{{ i.CPU }}</td>
-          <td>{{ i.Memory}}</td>
+        <td>{{ i.Year1 }}</td>
+        <td>{{ i.Year2 }}</td>
+          <td>{{ i.Year3}}</td>
       </tr>
     {% endfor %}
   </tbody>
