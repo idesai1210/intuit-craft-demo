@@ -18,7 +18,9 @@ def listOfAllAppByDepartments(d):
 def noOfCPUMemByDep(d):
 
     group = d.groupby('Group')
+    #print(group)
     cpu_json = group['CPU cores'].agg([np.sum]).to_json(orient='index')
+    #print(group['CPU cores'].agg([np.sum]))
     memory = group['RAM (MB)'].agg([np.sum]).to_json(orient='index')
     return [("CPU", cpu_json), ("Memory", memory)]
 
@@ -67,6 +69,8 @@ def main():
     # Number of CPU and Memory used by each Data centers
     noOfCPUMemByApplication = noOfCPUMemByApp(df1)
     print(noOfCPUMemByApplication)
+
+
 
     print(listOfAllAppByDepartments(df1))
 
