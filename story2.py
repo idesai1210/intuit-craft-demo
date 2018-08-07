@@ -8,7 +8,7 @@ def Estimate(d):
     group = d.groupby('Group')
     # print(group)
     cpu_json = group['Price'].agg([np.sum]).to_json(orient='index')
-    print(group['Price'].agg([np.sum]))
+    #print(group['Price'].agg([np.sum]))
 
     return group['Price'].agg([np.sum])
 
@@ -21,18 +21,18 @@ def main():
     xl = pd.ExcelFile(file)
 
     # Print the sheet names
-    print(xl.sheet_names)
+    #print(xl.sheet_names)
 
     # Load a sheet into a DataFrame by name: df1
     df1 = xl.parse('Page 1')
 
     file = 'prices.xlsx'
     xl1 = pd.ExcelFile(file)
-    print(xl1.sheet_names)
+    #print(xl1.sheet_names)
     df2 = xl1.parse('Sheet1')
 
-    print(df1)
-    print(df2)
+    #print(df1)
+    #print(df2)
 
     my_df = {}
     my_df['Type'] = list()
