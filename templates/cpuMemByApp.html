@@ -2,15 +2,24 @@
 {% block content %}
 <h2>Intuit Craft Demo</h2>
 <div class="container">
+    <ul class ="nav nav-pills">
+        <li class="active"><a href="/">Story 1</a></li>
+        <li><a href="/cost">Story 2</a></li>
+    </ul>
+    <br>
     <ul class="nav nav-pills">
         <li><a href="/">List of All Departments</a></li>
         <li><a href="/listOfAppsByDept">List of Applictions By Department</a></li>
         <li><a href="/cpuMemByDept">CPU and Memory Usage By Department</a></li>
         <li class="active"><a href="/cpuMemByApp">CPU and Memory Usage By Application</a></li>
         <li><a href="/cpuMemByDC">CPU and Memory Usage By Data Centers</a></li>
+
+    </ul>
+    <ul class = "nav nav-pills hide">
         <li><a href="/cost">Cost of Migration by Deparment</a></li>
     </ul>
 </div>
+<br>
 <table class="table" id="table">
     <thead>
     <tr>
@@ -31,4 +40,5 @@
     {% endfor %}
     </tbody>
 </table>
+
 {% endblock %}
