@@ -10,7 +10,7 @@ def Estimate(original_df, prices_df):
 
     # print(df_hardware)
     # print(df_prices)
-
+    # Create a temp Dataframe to Calculate prices
     pricesDict = {}
     pricesDict['Type'] = list()
     pricesDict['Price/Hr'] = list()
@@ -28,13 +28,17 @@ def Estimate(original_df, prices_df):
 
     pricesDict = pd.DataFrame(pricesDict)
 
+    # Join Dataframes on the primary key index
     result = pd.concat([df_hardware, pricesDict], axis=1, sort=False)
 
+    # Group By Department
     groupByDept = result.groupby('Group')
 
+    # Aggregate to calculate the sum
     rs = groupByDept['Price'].agg([np.sum])
 
     # print(type(rs))
+    # Create JSON String to feed to web app
     costList = []
     for index, row in rs.iterrows():
 

@@ -6,20 +6,23 @@ import pandas as pd
 
 app = Flask(__name__)
 
-# Assign spreadsheet filename to `file`
+# Assign hardware filename to `file`
 file_hardware = 'hardware.xlsx'
 
 # Load spreadsheet
 xl_hardware = pd.ExcelFile(file_hardware)
 
-# Print the sheet names
 
-# Load a sheet into a DataFrame by name: df1
+# Load a sheet into a DataFrame by name: df_hardware
 df_hardware = xl_hardware.parse('Page 1')
 
+# Assign prices filename to `file`
 file_prices = 'prices.xlsx'
+#Load Spreadsheet
 xl_prices = pd.ExcelFile(file_prices)
 # print(xl1.sheet_names)
+
+# Load a sheet into a DataFrame by name: df_prices
 df_prices = xl_prices.parse('Sheet1')
 
 
