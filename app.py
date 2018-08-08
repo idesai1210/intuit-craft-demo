@@ -1,61 +1,59 @@
 #import os
-from flask import Flask, redirect, url_for, request, render_template, json
+from flask import Flask, render_template
 import story1 as s1
 import story2 as s2
 import pandas as pd
-import xlrd
-import numpy as np
 app = Flask(__name__)
 
 # Assign spreadsheet filename to `file`
-file = 'hardware.xlsx'
+file_hardware = 'hardware.xlsx'
 
 # Load spreadsheet
-xl = pd.ExcelFile(file)
+xl_hardware = pd.ExcelFile(file_hardware)
 
 # Print the sheet names
 
 # Load a sheet into a DataFrame by name: df1
-df1 = xl.parse('Page 1')
+df_hardware = xl_hardware.parse('Page 1')
 
-file = 'prices.xlsx'
-xl1 = pd.ExcelFile(file)
+file_prices = 'prices.xlsx'
+xl_prices = pd.ExcelFile(file_prices)
 # print(xl1.sheet_names)
-df2 = xl1.parse('Sheet1')
+df_prices = xl_prices.parse('Sheet1')
 
 @app.route('/')
 def todo():
     # Render default page template
-    listOfDept = s1.listOfAllDepartments(df1)
+    listOfDept = s1.listOfAllDepartments(df_hardware)
     return render_template('listOfAllDepartments.html', items=listOfDept)
 
 
 @app.route('/listOfAppsByDept', methods=['GET'])
 def listOfAppsByDept():
-    listOfApps = s1.listOfAllAppByDepartments(df1)
+    listOfApps = s1.listOfAllAppByDepartments(df_hardware)
     return render_template('listOfAppsByDept.html', items=listOfApps)
 
 @app.route('/cpuMemByDept', methods=['GET'])
 def cpuMemByDept():
-    cpuMemByD = s1.noOfCPUMemByDep(df1)
+    cpuMemByD = s1.noOfCPUMemByDep(df_hardware)
     return render_template('cpuMemByDept.html', items=cpuMemByD)
 
 
 @app.route('/cpuMemByApp', methods=['GET'])
 def cpuMemByApp():
-    cpuMemByA = s1.noOfCPUMemByApp(df1)
+    cpuMemByA = s1.noOfCPUMemByApp(df_hardware)
     return render_template('cpuMemByApp.html', items=cpuMemByA)
 
 
 @app.route('/cpuMemByDC', methods=['GET'])
 def cpuMemByDC():
-    cpuMemBydc = s1.noOfCPUMemByDataCenters(df1)
+    cpuMemBydc = s1.noOfCPUMemByDataCenters(df_hardware)
     return render_template('cpuMemByDC.html', items=cpuMemBydc)
 
 
 @app.route('/cost', methods=['GET'])
 def cost():
-    costByDept = s2.Estimate(df1, df2)
+    costByDept = s2.Estimate(df_hardware, df_prices)
     return render_template('cost.html', items=costByDept)
 
 
