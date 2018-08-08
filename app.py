@@ -1,8 +1,9 @@
-#import os
+# import os
 from flask import Flask, render_template
 import story1 as s1
 import story2 as s2
 import pandas as pd
+
 app = Flask(__name__)
 
 # Assign spreadsheet filename to `file`
@@ -21,6 +22,7 @@ xl_prices = pd.ExcelFile(file_prices)
 # print(xl1.sheet_names)
 df_prices = xl_prices.parse('Sheet1')
 
+
 @app.route('/')
 def todo():
     # Render default page template
@@ -32,6 +34,7 @@ def todo():
 def listOfAppsByDept():
     listOfApps = s1.listOfAllAppByDepartments(df_hardware)
     return render_template('listOfAppsByDept.html', items=listOfApps)
+
 
 @app.route('/cpuMemByDept', methods=['GET'])
 def cpuMemByDept():
