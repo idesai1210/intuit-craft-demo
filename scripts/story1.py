@@ -1,6 +1,7 @@
 import numpy as np
+import logging
 
-
+logging.basicConfig(filename='Story1.log', format='%(levelname)s:%(asctime)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
 # This function will get the List of All Unique Departments
 def listOfAllDepartments(original_df):
     deptAll = list(original_df["Group"].unique())

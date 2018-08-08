@@ -1,7 +1,6 @@
 # import os
 from flask import Flask, render_template
-import story1 as s1
-import story2 as s2
+from scripts import story1 as s1, story2 as s2
 import pandas as pd
 
 app = Flask(__name__)
@@ -20,6 +19,7 @@ df_hardware = xl_hardware.parse('Page 1')
 file_prices = 'prices.xlsx'
 #Load Spreadsheet
 xl_prices = pd.ExcelFile(file_prices)
+
 # print(xl1.sheet_names)
 
 # Load a sheet into a DataFrame by name: df_prices
