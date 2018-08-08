@@ -1,30 +1,30 @@
 {% extends "layout.html" %}
 {% block content %}
-  <h2>Intuit Craft Demo</h2>
-  <div class="container">
-  <ul class="nav nav-pills">
-    <li class="active"><a href="/">List of All Departments</a></li>
-    <li><a href="/listOfAppsByDept">List of Applictions By Department</a></li>
-    <li><a href="/cpuMemByDept">CPU and Memory Usage By Department</a></li>
-    <li><a href="/cpuMemByApp">CPU and Memory Usage By Application</a></li>
-    <li><a href="/cpuMemByDC">CPU and Memory Usage By Data Centers</a></li>
-    <li><a href="/cost">Cost of Migration by Deparment</a></li>
-  </ul>
+<h2>Intuit Craft Demo</h2>
+<div class="container">
+    <ul class="nav nav-pills">
+        <li class="active"><a href="/">List of All Departments</a></li>
+        <li><a href="/listOfAppsByDept">List of Applictions By Department</a></li>
+        <li><a href="/cpuMemByDept">CPU and Memory Usage By Department</a></li>
+        <li><a href="/cpuMemByApp">CPU and Memory Usage By Application</a></li>
+        <li><a href="/cpuMemByDC">CPU and Memory Usage By Data Centers</a></li>
+        <li><a href="/cost">Cost of Migration by Deparment</a></li>
+    </ul>
 </div>
-  <table class="table" id="table">
+<table class="table" id="table">
     <thead>
-      <tr>
+    <tr>
         <th data-field="ID">ID</th>
         <th data-field="Department">Department</th>
-      </tr>
+    </tr>
     </thead>
-  <tbody>
+    <tbody>
     {% for i in items %}
-      <tr>
+    <tr>
         <td>{{ i['ID'] }}</td>
         <td>{{ i.Department }}</td>
-      </tr>
+    </tr>
     {% endfor %}
-  </tbody>
-  </table>
+    </tbody>
+</table>
 {% endblock %}

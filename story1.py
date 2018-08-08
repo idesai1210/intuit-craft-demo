@@ -20,13 +20,12 @@ def listOfAllAppByDepartments(original_df):
         listOfApp = list(original_df.loc[original_df['Group'] == l]["Application"].unique())
         listOfApp = ','.join(listOfApp)
         appByDeptList.append({"ID": i, "Department": l, "Applications": listOfApp})
-        i = i+1
+        i = i + 1
 
     return appByDeptList
 
 
 def noOfCPUMemByDep(original_df):
-
     groupByDept = original_df.groupby('Group')
     allDept = original_df["Group"].unique()
 
@@ -41,8 +40,8 @@ def noOfCPUMemByDep(original_df):
 
     return cpuMemDeptList
 
-def noOfCPUMemByApp(original_df):
 
+def noOfCPUMemByApp(original_df):
     groupByDept = original_df.groupby('Application')
     allApps = original_df["Application"].unique()
 
@@ -59,7 +58,6 @@ def noOfCPUMemByApp(original_df):
 
 
 def noOfCPUMemByDataCenters(original_df):
-
     groupBySite = original_df.groupby('Site')
     allSites = original_df["Site"].unique()
 

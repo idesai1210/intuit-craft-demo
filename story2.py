@@ -3,7 +3,6 @@ import numpy as np
 
 
 def Estimate(original_df, prices_df):
-
     # Load a sheet into a DataFrame by name: df_hardware
     df_hardware = original_df
 
@@ -33,7 +32,6 @@ def Estimate(original_df, prices_df):
 
     groupByDept = result.groupby('Group')
 
-
     rs = groupByDept['Price'].agg([np.sum])
 
     # print(type(rs))
@@ -47,7 +45,7 @@ def Estimate(original_df, prices_df):
             year2 = '${:,.2f}'.format(year2)
             year3 = '${:,.2f}'.format(year3)
             costList.append({'Department': index, 'Year1': year1, 'Year2': year2, 'Year3': year3})
-            #costList.append((index, [round(year1, 2), round(year2, 2), round(year3, 2)]))
+            # costList.append((index, [round(year1, 2), round(year2, 2), round(year3, 2)]))
 
         if index == 'Sales':
             year1 = '${:,.2f}'.format(row["sum"])
@@ -56,17 +54,16 @@ def Estimate(original_df, prices_df):
             year2 = '${:,.2f}'.format(year2)
             year3 = '${:,.2f}'.format(year3)
             costList.append({'Department': index, 'Year1': year1, 'Year2': year2, 'Year3': year3})
-            #costList.append((index, [round(year1, 2), round(year2, 2), round(year3, 2)]))
+            # costList.append((index, [round(year1, 2), round(year2, 2), round(year3, 2)]))
 
         if index == 'Engineering Canada':
             year = '${:,.2f}'.format(row["sum"])
             costList.append({'Department': index, 'Year1': year, 'Year2': year, 'Year3': year})
-            #costList.append((index, [round(row["sum"], 2), round(row["sum"], 2), round(row["sum"], 2)]))
+            # costList.append((index, [round(row["sum"], 2), round(row["sum"], 2), round(row["sum"], 2)]))
 
         if index == 'Marketing':
             year = '${:,.2f}'.format(row["sum"])
             costList.append({'Department': index, 'Year1': year, 'Year2': year, 'Year3': year})
-            #costList.append((index, [round(row["sum"], 2), round(row["sum"], 2), round(row["sum"], 2)]))
+            # costList.append((index, [round(row["sum"], 2), round(row["sum"], 2), round(row["sum"], 2)]))
 
     return costList
-
