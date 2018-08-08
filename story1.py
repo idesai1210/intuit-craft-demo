@@ -1,110 +1,75 @@
-import pandas as pd
-import xlrd
 import numpy as np
 
-def listOfAllDepartments(d):
-    ls = list(d["Group"].unique())
-    deptDict = []
-    i = 0
-    for l in ls:
-        deptDict.append({"ID": i, "Department": l})
-        i = i + 1
-    return deptDict
 
-def listOfAllAppByDepartments(d):
-    ls = d["Group"].unique()
-    tempDict = []
+def listOfAllDepartments(original_df):
+    deptAll = list(original_df["Group"].unique())
+    deptList = []
     i = 0
-    for l in ls:
-        listOfApp = list(d.loc[d['Group'] == l]["Application"].unique())
+    for l in deptAll:
+        deptList.append({"ID": i, "Department": l})
+        i = i + 1
+
+    return deptList
+
+
+def listOfAllAppByDepartments(original_df):
+    appByDept = original_df["Group"].unique()
+    appByDeptList = []
+    i = 0
+    for l in appByDept:
+        listOfApp = list(original_df.loc[original_df['Group'] == l]["Application"].unique())
         listOfApp = ','.join(listOfApp)
-        tempDict.append({"ID": i, "Department": l, "Applications": listOfApp})
+        appByDeptList.append({"ID": i, "Department": l, "Applications": listOfApp})
         i = i+1
 
-    return tempDict
+    return appByDeptList
 
 
-def noOfCPUMemByDep(d):
+def noOfCPUMemByDep(original_df):
 
-    group = d.groupby('Group')
-    ls = d["Group"].unique()
-    cpu_json = group['CPU cores'].agg([np.sum])
-    memory = group['RAM (MB)'].agg([np.sum])
+    groupByDept = original_df.groupby('Group')
+    allDept = original_df["Group"].unique()
 
-    cpuMemDictDept = []
+    noOfCpu = groupByDept['CPU cores'].agg([np.sum])
+    totalMemory = groupByDept['RAM (MB)'].agg([np.sum])
+
+    cpuMemDeptList = []
     i = 0
-    for l in ls:
-        cpuMemDictDept.append({"ID": i, "Department": l, "CPU": cpu_json["sum"][l], "Memory": memory["sum"][l]})
+    for l in allDept:
+        cpuMemDeptList.append({"ID": i, "Department": l, "CPU": noOfCpu["sum"][l], "Memory": totalMemory["sum"][l]})
         i = i + 1
 
-    return cpuMemDictDept
+    return cpuMemDeptList
 
-def noOfCPUMemByApp(d):
+def noOfCPUMemByApp(original_df):
 
-    group = d.groupby('Application')
-    ls = d["Application"].unique()
-    cpu_json = group['CPU cores'].agg([np.sum])
-    memory = group['RAM (MB)'].agg([np.sum])
-    cpuMemDictApp = []
+    groupByDept = original_df.groupby('Application')
+    allApps = original_df["Application"].unique()
+
+    noOfCpu = groupByDept['CPU cores'].agg([np.sum])
+    totalMemory = groupByDept['RAM (MB)'].agg([np.sum])
+
+    cpuMemAppList = []
     i = 0
-    for l in ls:
-        cpuMemDictApp.append({"ID": i, "Application": l, "CPU": cpu_json["sum"][l], "Memory": memory["sum"][l]})
+    for l in allApps:
+        cpuMemAppList.append({"ID": i, "Application": l, "CPU": noOfCpu["sum"][l], "Memory": totalMemory["sum"][l]})
         i = i + 1
 
-    return cpuMemDictApp
+    return cpuMemAppList
 
 
-def noOfCPUMemByDataCenters(d):
+def noOfCPUMemByDataCenters(original_df):
 
-    group = d.groupby('Site')
-    ls = d["Site"].unique()
-    cpu_json = group['CPU cores'].agg([np.sum])
-    memory = group['RAM (MB)'].agg([np.sum])
-    cpuMemDictDC = []
+    groupBySite = original_df.groupby('Site')
+    allSites = original_df["Site"].unique()
+
+    noOfCpu = groupBySite['CPU cores'].agg([np.sum])
+    totalMemory = groupBySite['RAM (MB)'].agg([np.sum])
+
+    cpuMemDCList = []
     i = 0
-    for l in ls:
-        cpuMemDictDC.append({"ID": i, "Site": l, "CPU": cpu_json["sum"][l], "Memory": memory["sum"][l]})
+    for l in allSites:
+        cpuMemDCList.append({"ID": i, "Site": l, "CPU": noOfCpu["sum"][l], "Memory": totalMemory["sum"][l]})
         i = i + 1
 
-    return cpuMemDictDC
-
-
-def main():
-    # Assign spreadsheet filename to `file`
-    file = 'hardware.xlsx'
-
-    # Load spreadsheet
-    xl = pd.ExcelFile(file)
-
-    # Print the sheet names
-    print(xl.sheet_names)
-
-    # Load a sheet into a DataFrame by name: df1
-    df1 = xl.parse('Page 1')
-
-
-    # List of All Departments that has an application hosted
-
-    uniqueDepartments = listOfAllDepartments(df1)
-
-
-    # Number of CPU and Memory used by each departments
-
-    noOfCPUMemByDepartment = noOfCPUMemByDep(df1)
-    print(noOfCPUMemByDepartment)
-
-    # Number of CPU and Memory used by each Data centers
-    noOfCPUMemByDC = noOfCPUMemByDataCenters(df1)
-    print(noOfCPUMemByDC)
-
-    # Number of CPU and Memory used by each Data centers
-    noOfCPUMemByApplication = noOfCPUMemByApp(df1)
-    print(noOfCPUMemByApplication)
-
-
-
-    print(listOfAllAppByDepartments(df1))
-
-
-if __name__ == "__main__":
-    main()
+    return cpuMemDCList
