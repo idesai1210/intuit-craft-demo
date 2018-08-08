@@ -1,7 +1,6 @@
 # import os
 from flask import Flask, render_template
-import story1 as s1
-import story2 as s2
+from scripts import story1 as s1, story2 as s2
 import pandas as pd
 
 app = Flask(__name__)
