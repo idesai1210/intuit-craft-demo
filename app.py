@@ -19,6 +19,7 @@ df_hardware = xl_hardware.parse('Page 1')
 file_prices = 'prices.xlsx'
 #Load Spreadsheet
 xl_prices = pd.ExcelFile(file_prices)
+
 # print(xl1.sheet_names)
 
 # Load a sheet into a DataFrame by name: df_prices
