@@ -1,41 +1,40 @@
 import pandas as pd
-import xlrd
 import numpy as np
 
 
-def Estimate(d, d2):
+def Estimate(original_df, prices_df):
 
-    # Load a sheet into a DataFrame by name: df1
-    df1 = d
+    # Load a sheet into a DataFrame by name: df_hardware
+    df_hardware = original_df
 
-    df2 = d2
+    df_prices = prices_df
 
-    # print(df1)
-    # print(df2)
+    # print(df_hardware)
+    # print(df_prices)
 
-    my_df = {}
-    my_df['Type'] = list()
-    my_df['Price/Hr'] = list()
-    my_df['Price'] = list()
+    pricesDict = {}
+    pricesDict['Type'] = list()
+    pricesDict['Price/Hr'] = list()
+    pricesDict['Price'] = list()
 
-    for index, row in df1.iterrows():
+    for index, row in df_hardware.iterrows():
         # print(row["CPU cores"], row["RAM (MB)"])
-        # print(df2.loc[(df2['CPU'] <= row["CPU cores"]) | (df2["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1])
-        l = df2.loc[(df2['CPU'] <= row["CPU cores"]) | (df2["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1]
+        # print(df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1])
+        l = df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1]
         # print(l['Type'])
-        my_df['Type'].append(l['Type'])
-        my_df['Price/Hr'].append(l['Price/Hr'])
-        my_df['Price'].append(float(l['Price/Hr'][1:]) * 24 * 7 * 365)
+        pricesDict['Type'].append(l['Type'])
+        pricesDict['Price/Hr'].append(l['Price/Hr'])
+        pricesDict['Price'].append(float(l['Price/Hr'][1:]) * 24 * 7 * 365)
         # print(d)
 
-    my_df = pd.DataFrame(my_df)
+    pricesDict = pd.DataFrame(pricesDict)
 
-    result = pd.concat([df1, my_df], axis=1, sort=False)
+    result = pd.concat([df_hardware, pricesDict], axis=1, sort=False)
 
-    group = result.groupby('Group')
+    groupByDept = result.groupby('Group')
 
 
-    rs = group['Price'].agg([np.sum])
+    rs = groupByDept['Price'].agg([np.sum])
 
     # print(type(rs))
     costList = []
