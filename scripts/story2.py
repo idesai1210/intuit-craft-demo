@@ -35,7 +35,6 @@ def Estimate(df_hardware, df_prices):
     logging.info(datetime.datetime.now())
 
 
-
     try:
         # Join Dataframes on the primary key index
 
