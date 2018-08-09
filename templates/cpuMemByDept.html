@@ -1,43 +1,197 @@
 {% extends "layout.html" %}
 {% block content %}
-<h2>Intuit Craft Demo</h2>
-<div class="container">
-    <ul class ="nav nav-pills">
-        <li class="active"><a href="/">Story 1</a></li>
-        <li><a href="/cost">Story 2</a></li>
+    <h2>Intuit Craft Demo</h2>
+    <div class="container">
+        <ul class="nav nav-pills">
+            <li class="active"><a href="/">Story 1</a></li>
+            <li><a href="/cost">Story 2</a></li>
+        </ul>
+        <br>
+        <ul class="nav nav-pills">
+            <li><a href="/">List of All Departments</a></li>
+            <li><a href="/listOfAppsByDept">List of Applictions By Department</a></li>
+            <li class="active"><a href="/cpuMemByDept">CPU and Memory Usage By Department</a></li>
+            <li><a href="/cpuMemByApp">CPU and Memory Usage By Application</a></li>
+            <li><a href="/cpuMemByDC">CPU and Memory Usage By Data Centers</a></li>
+
+        </ul>
+        <ul class="nav nav-pills hide">
+            <li><a href="/cost">Cost of Migration by Deparment</a></li>
+        </ul>
+    </div>
+    <br>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Table</a></li>
+        <li><a data-toggle="tab" href="#menu1">Bar Chart</a></li>
+        <li><a data-toggle="tab" href="#menu2">Pie Chart</a></li>
     </ul>
     <br>
-    <ul class="nav nav-pills">
-        <li><a href="/">List of All Departments</a></li>
-        <li><a href="/listOfAppsByDept">List of Applictions By Department</a></li>
-        <li  class="active"><a href="/cpuMemByDept">CPU and Memory Usage By Department</a></li>
-        <li><a href="/cpuMemByApp">CPU and Memory Usage By Application</a></li>
-        <li><a href="/cpuMemByDC">CPU and Memory Usage By Data Centers</a></li>
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <table class="table" id="table">
+                <thead>
+                <tr>
+                    <th data-field="ID">ID</th>
+                    <th data-field="Department">Department</th>
+                    <th data-field="CPU">CPU</th>
+                    <th data-field="Memory">Memory (MB)</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in items %}
+                    <tr>
+                        <td>{{ i.ID }}</td>
+                        <td>{{ i.Department }}</td>
+                        <td>{{ i.CPU }}</td>
+                        <td>{{ i.Memory }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            <div class="container">
+                <div class="col-md-6">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="myChart2"></canvas>
+                </div>
+            </div>
+        </div>
+        <div id="menu2" class="tab-pane fade">
+            <div class="container">
+                <div class="col-md-6">
+                    <canvas id="myPChart"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="myPChart2"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
 
-    </ul>
-    <ul class = "nav nav-pills hide">
-        <li><a href="/cost">Cost of Migration by Deparment</a></li>
-    </ul>
-</div>
-<br>
-<table class="table" id="table">
-    <thead>
-    <tr>
-        <th data-field="ID">ID</th>
-        <th data-field="Department">Department</th>
-        <th data-field="CPU">CPU</th>
-        <th data-field="Memory">Memory (MB)</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for i in items %}
-    <tr>
-        <td>{{ i.ID }}</td>
-        <td>{{ i.Department }}</td>
-        <td>{{ i.CPU }}</td>
-        <td>{{ i.Memory}}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script type="text/javascript">
+        labels = [{% for i in items %}"{{ i.Department }}", {% endfor %}];
+        dataCPU = [{% for i in items %}"{{ i.CPU }}", {% endfor %}];
+        dataMemory = [{% for i in items %}"{{ i.Memory }}", {% endfor %}];
+        var ctx = $('#myChart');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '# of CPUs',
+                    data: dataCPU,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        var ctx2 = $('#myChart2');
+        var myChart = new Chart(ctx2, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Total Memory(MB)',
+                    data: dataMemory,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+        var ctx3 = $('#myPChart');
+        var myPieChart = new Chart(ctx3, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: dataCPU,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ]
+                }],
+
+                // These labels appear in the legend and in the tooltips when hovering different arcs
+                labels: labels,
+            }
+        });
+
+        var ctx4 = $('#myPChart2');
+        var myPieChart = new Chart(ctx4, {
+            type: 'pie',
+            data: {
+                datasets: [{
+                    data: dataMemory,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ]
+                }],
+
+                // These labels appear in the legend and in the tooltips when hovering different arcs
+                labels: labels,
+            }
+        });
+
+    </script>
+
 {% endblock %}

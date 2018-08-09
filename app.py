@@ -28,7 +28,7 @@ df_prices = xl_prices.parse('Sheet1')
 
 @app.route('/')
 def todo():
-    # Render default page template
+    # Render default page templat
     listOfDept = s1.listOfAllDepartments(df_hardware)
     return render_template('listOfAllDepartments.html', items=listOfDept)
 
