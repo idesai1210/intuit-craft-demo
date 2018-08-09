@@ -36,7 +36,6 @@ def Estimate(df_hardware, df_prices):
 
     try:
         # Join Dataframes on the primary key index
-        # result = pd.concat([df_hardware, pricesDict], axis=1, sort=False)
 
         # Group By Department
         groupByDept = df_hardware.groupby('Group')
