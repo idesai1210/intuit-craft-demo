@@ -40,6 +40,7 @@ def Estimate(df_hardware, df_prices):
 
         # Group By Department
 
+
         groupByDept = df_hardware.groupby('Group')
 
         # Aggregate to calculate the sum
