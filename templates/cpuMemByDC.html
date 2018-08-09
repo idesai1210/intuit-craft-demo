@@ -51,23 +51,24 @@
             </table>
         </div>
         <div id="menu1" class="tab-pane fade">
-            <h3>Click on the Labels For Specifics.</h3>
 
             <div class="container">
                 <div class="col-md-6">
+                    <label>Number of CPUs</label>
                     <canvas id="myChart"></canvas>
                 </div>
                 <div class="col-md-6">
+                    <label>Total Memory(MB)</label>
                     <canvas id="myChart2"></canvas>
                 </div>
             </div>
         </div>
         <div id="menu2" class="tab-pane fade">
-            <h3>Click on the Labels For Specifics.</h3>
+            <h3>Click on the Labels For Specifics</h3>
 
             <div class="container">
                 <div class="col-md-6">
-                    <label># of CPUs</label>
+                    <label>Number of CPUs</label>
                     <canvas id="myPChart"></canvas>
                 </div>
                 <div class="col-md-6">
@@ -89,7 +90,7 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: '# of CPUs',
+                    label:'Number of CPU',
                     data: dataCPU,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -152,7 +153,7 @@
             data: {
                 labels: labels,
                 datasets: [{
-                    label: 'Total Memory(MB)',
+                    label:'Total Memory(MB)',
                     data: dataMemory,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
