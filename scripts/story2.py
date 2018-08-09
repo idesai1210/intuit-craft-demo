@@ -12,31 +12,24 @@ def Estimate(original_df, prices_df):
     df_hardware = original_df
 
     df_prices = prices_df
-    print(1)
-    print(datetime.datetime.now())
-    # print(df_hardware)
-    # print(df_prices)
-    # Create a temp Dataframe to Calculate prices
-    # pricesDict = {}
-    # pricesDict['Type'] = list()
-    # pricesDict['Price'] = list()
+    logging.info(1)
+    logging.info(datetime.datetime.now())
+
     pricesDf = pd.DataFrame(columns=['Price'])
     for index, row in df_hardware.iterrows():
-        # print(row["CPU cores"], row["RAM (MB)"])
-        # print(df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1])
-        l = df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1]
-        # print(l['Type'])
-        pricesDf.loc[index] = [float(l['Price/Hr'][1:]) * 24 * 7 * 365]
-        # pricesDict['Type'].append(l['Type'])
-        # pricesDict['Price'].append(float(l['Price/Hr'][1:]) * 24 * 7 * 365)
-        # # print(d)
 
-    print(2)
-    print(datetime.datetime.now())
+        # print(df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1])
+        l = df_prices[(df_prices.CPU <= row["CPU cores"]) | (df_prices['RAM (MB)'] <= row["RAM (MB)"])].iloc[-1]
+        # l = df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1]
+        # print(l['Type'])
+        pricesDf.loc[index] = [float(l['Price/Hr'][1:])]
+
+    logging.info(2)
+    logging.info(datetime.datetime.now())
     # pricesDict = pd.DataFrame(pricesDict)
     pricesDict = pricesDf
-    print(3)
-    print(datetime.datetime.now())
+    logging.info(3)
+    logging.info(datetime.datetime.now())
 
     try:
         # Join Dataframes on the primary key index
@@ -53,13 +46,13 @@ def Estimate(original_df, prices_df):
         logging.error(repr(e))
     # print(type(rs))
     # Create JSON String to feed to web app
-    print(4)
-    print(datetime.datetime.now())
+    logging.info(4)
+    logging.info(datetime.datetime.now())
 
     costList = []
     try:
         for index, row in rs.iterrows():
-
+            row["sum"] = row["sum"]*24*7*365
             if index == 'Engineering':
                 year0 = row["sum"]
                 year1 = year0 * 0.10 + year0
@@ -104,7 +97,7 @@ def Estimate(original_df, prices_df):
         logging.error("The result set is empty")
         logging.error(repr(e))
 
-    print(5)
-    print(datetime.datetime.now())
+    logging.info(5)
+    logging.info(datetime.datetime.now())
 
     return costList
