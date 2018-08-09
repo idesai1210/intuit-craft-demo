@@ -2,7 +2,10 @@ import pandas as pd
 import numpy as np
 import logging
 
-logging.basicConfig(filename='Story2.log', format='%(levelname)s:%(asctime)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
+logging.basicConfig(filename='Story2.log', format='%(levelname)s:%(asctime)s:%(message)s',
+                    datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
+
+
 def Estimate(original_df, prices_df):
     # Load a sheet into a DataFrame by name: df_hardware
     df_hardware = original_df
@@ -67,8 +70,12 @@ def Estimate(original_df, prices_df):
                 # costList.append((index, [round(year1, 2), round(year2, 2), round(year3, 2)]))
 
             if index == 'Engineering Canada':
-                year = '${:,.2f}'.format(row["sum"])
-                costList.append({'Department': index, 'Year1': year, 'Year2': year, 'Year3': year})
+                year1 = '${:,.2f}'.format(row["sum"])
+                year2 = row["sum"] * 0.10 + row["sum"]
+                year3 = year2 * 0.10 + year2
+                year2 = '${:,.2f}'.format(year2)
+                year3 = '${:,.2f}'.format(year3)
+                costList.append({'Department': index, 'Year1': year1, 'Year2': year2, 'Year3': year3})
                 # costList.append((index, [round(row["sum"], 2), round(row["sum"], 2), round(row["sum"], 2)]))
 
             if index == 'Marketing':
