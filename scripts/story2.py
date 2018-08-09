@@ -2,6 +2,8 @@ import pandas as pd
 import numpy as np
 import logging
 import datetime
+from multiprocessing import Pool
+from functools import partial
 
 logging.basicConfig(filename='Story2.log', format='%(levelname)s:%(asctime)s:%(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
@@ -10,22 +12,25 @@ def valuation_formula(cpu,ram,df_prices):
     l = df_prices[(df_prices.CPU <= cpu) | (df_prices['RAM (MB)'] <= ram)].iloc[-1]
     return float(l['Price/Hr'][1:])
 
+def mulitprocessFunc(hardware, prices):
+    hardware['Price'] = hardware.apply(lambda row: valuation_formula(row['CPU cores'], row['RAM (MB)'], prices), axis=1)
+    return hardware
 
-
-def Estimate(original_df, prices_df):
+def Estimate(df_hardware, df_prices):
     # Load a sheet into a DataFrame by name: df_hardware
-    df_hardware = original_df
-
-    df_prices = prices_df
     logging.info(1)
     logging.info(datetime.datetime.now())
 
-    df_hardware['Price'] = df_hardware.apply(lambda row: valuation_formula(row['CPU cores'], row['RAM (MB)'], df_prices), axis=1)
+    #df_hardware['Price'] = df_hardware.apply(lambda row: valuation_formula(row['CPU cores'], row['RAM (MB)'], df_prices), axis=1)
+    df_hardwareArray = np.array_split(df_hardware,4)
 
+    pool = Pool(processes=4)
+    ans = pool.map(partial(mulitprocessFunc, prices=df_prices), df_hardwareArray)
+    df_hardware = pd.concat(ans)
 
     logging.info(2)
     logging.info(datetime.datetime.now())
-    
+
     logging.info(3)
     logging.info(datetime.datetime.now())
 
