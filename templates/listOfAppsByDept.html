@@ -1,41 +1,52 @@
 {% extends "layout.html" %}
 {% block content %}
-<h2>Intuit Craft Demo</h2>
-<div class="container">
-    <ul class ="nav nav-pills">
-        <li class="active"><a href="/">Story 1</a></li>
-        <li><a href="/cost">Story 2</a></li>
+    <h2>Intuit Craft Demo</h2>
+    <div class="container">
+        <ul class="nav nav-pills">
+            <li class="active"><a href="/">Story 1</a></li>
+            <li><a href="/cost">Story 2</a></li>
+        </ul>
+        <br>
+        <ul class="nav nav-pills">
+            <li><a href="/">List of All Departments</a></li>
+            <li class="active"><a href="/listOfAppsByDept">List of Applictions By Department</a></li>
+            <li><a href="/cpuMemByDept">CPU and Memory Usage By Department</a></li>
+            <li><a href="/cpuMemByApp">CPU and Memory Usage By Application</a></li>
+            <li><a href="/cpuMemByDC">CPU and Memory Usage By Data Centers</a></li>
+
+        </ul>
+        <ul class="nav nav-pills hide">
+            <li><a href="/cost">Cost of Migration by Deparment</a></li>
+        </ul>
+    </div>
+    <br>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Table</a></li>
     </ul>
     <br>
-    <ul class="nav nav-pills">
-        <li><a href="/">List of All Departments</a></li>
-        <li class="active"><a href="/listOfAppsByDept">List of Applictions By Department</a></li>
-        <li><a href="/cpuMemByDept">CPU and Memory Usage By Department</a></li>
-        <li><a href="/cpuMemByApp">CPU and Memory Usage By Application</a></li>
-        <li><a href="/cpuMemByDC">CPU and Memory Usage By Data Centers</a></li>
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
 
-    </ul>
-    <ul class = "nav nav-pills hide">
-        <li><a href="/cost">Cost of Migration by Deparment</a></li>
-    </ul>
-</div>
-<br>
-<table class="table" id="table">
-    <thead>
-    <tr>
-        <th data-field="ID">ID</th>
-        <th data-field="Department">Department</th>
-        <th data-field="Applications">Applications</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for i in items %}
-    <tr>
-        <td>{{ i['ID'] }}</td>
-        <td>{{ i.Department }}</td>
-        <td>{{ i.Applications }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+            <table class="table" id="table">
+                <thead>
+                <tr>
+                    <th data-field="ID">ID</th>
+                    <th data-field="Department">Department</th>
+                    <th data-field="Applications">Applications</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in items %}
+                    <tr>
+                        <td>{{ i['ID'] }}</td>
+                        <td>{{ i.Department }}</td>
+                        <td>{{ i.Applications }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
 {% endblock %}

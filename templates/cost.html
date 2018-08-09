@@ -1,43 +1,125 @@
 {% extends "layout.html" %}
 {% block content %}
-<h2>Intuit Craft Demo</h2>
-<div class="container">
-    <ul class ="nav nav-pills">
-        <li><a href="/">Story 1</a></li>
-        <li class="active"><a href="/cost">Story 2</a></li>
+    <h2>Intuit Craft Demo</h2>
+    <div class="container">
+        <ul class="nav nav-pills">
+            <li><a href="/">Story 1</a></li>
+            <li class="active"><a href="/cost">Story 2</a></li>
+        </ul>
+        <br>
+        <ul class="nav nav-pills hide">
+            <li><a href="/">List of All Departments</a></li>
+            <li><a href="/listOfAppsByDept">List of Applictions By Department</a></li>
+            <li><a href="/cpuMemByDept">CPU and Memory Usage By Department</a></li>
+            <li><a href="/cpuMemByApp">CPU and Memory Usage By Application</a></li>
+            <li><a href="/cpuMemByDC">CPU and Memory Usage By Data Centers</a></li>
+
+        </ul>
+        <ul class="nav nav-pills">
+            <li class="active"><a href="/cost">Cost of Migration by Deparment</a></li>
+        </ul>
+    </div>
+    <br>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#home">Table</a></li>
+        <li><a data-toggle="tab" href="#menu1">Line Chart</a></li>
     </ul>
     <br>
-    <ul class="nav nav-pills hide">
-        <li><a href="/">List of All Departments</a></li>
-        <li><a href="/listOfAppsByDept">List of Applictions By Department</a></li>
-        <li><a href="/cpuMemByDept">CPU and Memory Usage By Department</a></li>
-        <li><a href="/cpuMemByApp">CPU and Memory Usage By Application</a></li>
-        <li><a href="/cpuMemByDC">CPU and Memory Usage By Data Centers</a></li>
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
 
-    </ul>
-    <ul class = "nav nav-pills">
-        <li class="active"><a href="/cost">Cost of Migration by Deparment</a></li>
-    </ul>
-</div>
-<br>
-<table class="table" id="table">
-    <thead>
-    <tr>
-        <th data-field="Department">Site</th>
-        <th data-field="Year1">Year 1</th>
-        <th data-field="Year2">Year 2</th>
-        <th data-field="Year3">Year 3</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for i in items %}
-    <tr>
-        <td>{{ i.Department }}</td>
-        <td>{{ i.Year1 }}</td>
-        <td>{{ i.Year2 }}</td>
-        <td>{{ i.Year3}}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+            <table class="table" id="table">
+                <thead>
+                <tr>
+                    <th data-field="Department">Site</th>
+                    <th data-field="Year1">Current</th>
+                    <th data-field="Year1">Year 1</th>
+                    <th data-field="Year2">Year 2</th>
+                    <th data-field="Year3">Year 3</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in items %}
+                    <tr>
+                        <td>{{ i.Department }}</td>
+                        <td>{{ i.Year0 }}
+                        <td>{{ i.Year1 }}</td>
+                        <td>{{ i.Year2 }}</td>
+                        <td>{{ i.Year3 }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            <h3>Click on the Labels For Specifics.</h3>
+
+            <div class="container">
+                <div class="col-md-12">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <div class="col-md-6">
+                    <canvas id="myChart2"></canvas>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.min.js"></script>
+    <script type="text/javascript">
+        data1 = [];
+        {% for i in items %}
+            var str = '{{ i.Year0 }}'.replace('$', '').replace(/,/g, "") + ',' +
+                '{{ i.Year1 }}'.replace('$', '').replace(/,/g, "") + ',' +
+                +'{{ i.Year2 }}'.replace('$', '').replace(/,/g, "") + ',' +
+                +'{{ i.Year3 }}'.replace('$', '').replace(/,/g, "");
+            console.log("I am here");
+            data1.push(str)
+        {% endfor %}
+        console.log(data1[0])
+        labels = ['Current', 'Year1', 'Year2', 'Year3'];
+        dataCPU = [{% for i in items %}"{{ i.CPU }}", {% endfor %}];
+        dataMemory = [{% for i in items %}"{{ i.Memory }}", {% endfor %}];
+        var ctx = $('#myChart');
+        var lineChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data1[0].split(","),
+                    label: '{{ items[0].Department }}',
+                    borderColor: "#3e95cd",
+                    fill: false
+                }, {
+                    data: data1[1].split(","),
+                    label: '{{ items[1].Department }}',
+                    borderColor: "#e8c3b9",
+                    fill: false
+                },
+                    {
+                        data: data1[2].split(","),
+                        label: '{{ items[2].Department }}',
+                        borderColor: "#3cba9f",
+                        fill: false
+                    },
+                    {
+                        data: data1[3].split(","),
+                        label: '{{ items[3].Department }}',
+                        borderColor: "#8e5ea2",
+                        fill: false
+                    }
+
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Cost For Migration'
+                }
+            }
+        });
+
+    </script>
+
 {% endblock %}

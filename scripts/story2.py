@@ -2,7 +2,10 @@ import pandas as pd
 import numpy as np
 import logging
 
-logging.basicConfig(filename='Story2.log', format='%(levelname)s:%(asctime)s:%(message)s', datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
+logging.basicConfig(filename='Story2.log', format='%(levelname)s:%(asctime)s:%(message)s',
+                    datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
+
+
 def Estimate(original_df, prices_df):
     # Load a sheet into a DataFrame by name: df_hardware
     df_hardware = original_df
@@ -49,34 +52,49 @@ def Estimate(original_df, prices_df):
         for index, row in rs.iterrows():
 
             if index == 'Engineering':
-                year1 = '${:,.2f}'.format(row["sum"])
-                year2 = row["sum"] * 0.10 + row["sum"]
-                year3 = year2 * 0.10 + year2
+                year0 = row["sum"]
+                year1 = year0 * 0.10 + year0
+                year2 = year1 * 0.25 + year1
+                year3 = year2 * 0.40 + year2
+                year0 = '${:,.2f}'.format(year0)
+                year1 = '${:,.2f}'.format(year1)
                 year2 = '${:,.2f}'.format(year2)
                 year3 = '${:,.2f}'.format(year3)
-                costList.append({'Department': index, 'Year1': year1, 'Year2': year2, 'Year3': year3})
+                costList.append({'Department': index, 'Year0': year0, 'Year1': year1, 'Year2': year2, 'Year3': year3})
                 # costList.append((index, [round(year1, 2), round(year2, 2), round(year3, 2)]))
 
             if index == 'Sales':
-                year1 = '${:,.2f}'.format(row["sum"])
-                year2 = row["sum"] - row["sum"] * 0.80
-                year3 = year2 - year2
+                year0 = row["sum"]
+                year1 = row["sum"] - row["sum"] * 0.80
+                year2 = year1 - year1
+                year3 = 0
+                year0 = '${:,.2f}'.format(year0)
+                year1 = '${:,.2f}'.format(year1)
                 year2 = '${:,.2f}'.format(year2)
                 year3 = '${:,.2f}'.format(year3)
-                costList.append({'Department': index, 'Year1': year1, 'Year2': year2, 'Year3': year3})
+                costList.append({'Department': index, 'Year0': year0, 'Year1': year1, 'Year2': year2, 'Year3': year3})
                 # costList.append((index, [round(year1, 2), round(year2, 2), round(year3, 2)]))
 
             if index == 'Engineering Canada':
-                year = '${:,.2f}'.format(row["sum"])
-                costList.append({'Department': index, 'Year1': year, 'Year2': year, 'Year3': year})
+                year0 = row["sum"]
+                year1 = year0 * 0.10 + year0
+                year2 = year1 * 0.25 + year1
+                year3 = year2 * 0.40 + year2
+                year0 = '${:,.2f}'.format(year0)
+                year1 = '${:,.2f}'.format(year1)
+                year2 = '${:,.2f}'.format(year2)
+                year3 = '${:,.2f}'.format(year3)
+                costList.append({'Department': index, 'Year0': year0, 'Year1': year1, 'Year2': year2, 'Year3': year3})
                 # costList.append((index, [round(row["sum"], 2), round(row["sum"], 2), round(row["sum"], 2)]))
 
             if index == 'Marketing':
                 year = '${:,.2f}'.format(row["sum"])
-                costList.append({'Department': index, 'Year1': year, 'Year2': year, 'Year3': year})
+                costList.append({'Department': index, 'Year0': year, 'Year1': year, 'Year2': year, 'Year3': year})
                 # costList.append((index, [round(row["sum"], 2), round(row["sum"], 2), round(row["sum"], 2)]))
     except Exception as e:
         logging.error("The result set is empty")
         logging.error(repr(e))
+
+    print(costList)
 
     return costList
