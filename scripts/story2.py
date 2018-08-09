@@ -39,6 +39,7 @@ def Estimate(df_hardware, df_prices):
         # Join Dataframes on the primary key index
 
         # Group By Department
+
         groupByDept = df_hardware.groupby('Group')
 
         # Aggregate to calculate the sum
