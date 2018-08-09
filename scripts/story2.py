@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import logging
+import datetime
 
 logging.basicConfig(filename='Story2.log', format='%(levelname)s:%(asctime)s:%(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
@@ -11,26 +12,31 @@ def Estimate(original_df, prices_df):
     df_hardware = original_df
 
     df_prices = prices_df
-
+    print(1)
+    print(datetime.datetime.now())
     # print(df_hardware)
     # print(df_prices)
     # Create a temp Dataframe to Calculate prices
-    pricesDict = {}
-    pricesDict['Type'] = list()
-    pricesDict['Price/Hr'] = list()
-    pricesDict['Price'] = list()
-
+    # pricesDict = {}
+    # pricesDict['Type'] = list()
+    # pricesDict['Price'] = list()
+    pricesDf = pd.DataFrame(columns=['Type', 'Price'])
     for index, row in df_hardware.iterrows():
         # print(row["CPU cores"], row["RAM (MB)"])
         # print(df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1])
         l = df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1]
         # print(l['Type'])
-        pricesDict['Type'].append(l['Type'])
-        pricesDict['Price/Hr'].append(l['Price/Hr'])
-        pricesDict['Price'].append(float(l['Price/Hr'][1:]) * 24 * 7 * 365)
-        # print(d)
+        pricesDf.loc[index] = [l['Type'], float(l['Price/Hr'][1:]) * 24 * 7 * 365]
+        # pricesDict['Type'].append(l['Type'])
+        # pricesDict['Price'].append(float(l['Price/Hr'][1:]) * 24 * 7 * 365)
+        # # print(d)
 
-    pricesDict = pd.DataFrame(pricesDict)
+    print(2)
+    print(datetime.datetime.now())
+    # pricesDict = pd.DataFrame(pricesDict)
+    pricesDict = pricesDf
+    print(3)
+    print(datetime.datetime.now())
 
     try:
         # Join Dataframes on the primary key index
@@ -47,6 +53,9 @@ def Estimate(original_df, prices_df):
         logging.error(repr(e))
     # print(type(rs))
     # Create JSON String to feed to web app
+    print(4)
+    print(datetime.datetime.now())
+
     costList = []
     try:
         for index, row in rs.iterrows():
@@ -94,5 +103,8 @@ def Estimate(original_df, prices_df):
     except Exception as e:
         logging.error("The result set is empty")
         logging.error(repr(e))
+
+    print(5)
+    print(datetime.datetime.now())
 
     return costList
