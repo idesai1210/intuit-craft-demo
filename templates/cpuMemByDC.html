@@ -1,25 +1,25 @@
 {% extends "layout.html" %}
 {% block content %}
-<h2>Intuit Craft Demo</h2>
-<div class="container">
-    <ul class ="nav nav-pills">
-        <li class="active"><a href="/">Story 1</a></li>
-        <li><a href="/cost">Story 2</a></li>
-    </ul>
-    <br>
-    <ul class="nav nav-pills">
-        <li><a href="/">List of All Departments</a></li>
-        <li><a href="/listOfAppsByDept">List of Applictions By Department</a></li>
-        <li><a href="/cpuMemByDept">CPU and Memory Usage By Department</a></li>
-        <li><a href="/cpuMemByApp">CPU and Memory Usage By Application</a></li>
-        <li class="active"><a href="/cpuMemByDC">CPU and Memory Usage By Data Centers</a></li>
+    <h2>Intuit Craft Demo</h2>
+    <div class="container">
+        <ul class="nav nav-pills">
+            <li class="active"><a href="/">Story 1</a></li>
+            <li><a href="/cost">Story 2</a></li>
+        </ul>
+        <br>
+        <ul class="nav nav-pills">
+            <li><a href="/">List of All Departments</a></li>
+            <li><a href="/listOfAppsByDept">List of Applictions By Department</a></li>
+            <li><a href="/cpuMemByDept">CPU and Memory Usage By Department</a></li>
+            <li><a href="/cpuMemByApp">CPU and Memory Usage By Application</a></li>
+            <li class="active"><a href="/cpuMemByDC">CPU and Memory Usage By Data Centers</a></li>
 
-    </ul>
-    <ul class = "nav nav-pills hide">
-        <li><a href="/cost">Cost of Migration by Deparment</a></li>
-    </ul>
-</div>
-<br>
+        </ul>
+        <ul class="nav nav-pills hide">
+            <li><a href="/cost">Cost of Migration by Deparment</a></li>
+        </ul>
+    </div>
+    <br>
     <ul class="nav nav-tabs">
         <li class="active"><a data-toggle="tab" href="#home">Table</a></li>
         <li><a data-toggle="tab" href="#menu1">Bar Chart</a></li>
@@ -30,25 +30,25 @@
         <div id="home" class="tab-pane fade in active">
 
             <table class="table" id="table">
-    <thead>
-    <tr>
-        <th data-field="ID">ID</th>
-        <th data-field="Site">Site</th>
-        <th data-field="CPU">CPU</th>
-        <th data-field="Memory">Memory (MB)</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for i in items %}
-    <tr>
-        <td>{{ i.ID }}</td>
-        <td>{{ i.Site }}</td>
-        <td>{{ i.CPU }}</td>
-        <td>{{ i.Memory}}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+                <thead>
+                <tr>
+                    <th data-field="ID">ID</th>
+                    <th data-field="Site">Site</th>
+                    <th data-field="CPU">CPU</th>
+                    <th data-field="Memory">Memory (MB)</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for i in items %}
+                    <tr>
+                        <td>{{ i.ID }}</td>
+                        <td>{{ i.Site }}</td>
+                        <td>{{ i.CPU }}</td>
+                        <td>{{ i.Memory }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
         </div>
         <div id="menu1" class="tab-pane fade">
             <div class="container">
