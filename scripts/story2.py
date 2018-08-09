@@ -20,13 +20,13 @@ def Estimate(original_df, prices_df):
     # pricesDict = {}
     # pricesDict['Type'] = list()
     # pricesDict['Price'] = list()
-    pricesDf = pd.DataFrame(columns=['Type', 'Price'])
+    pricesDf = pd.DataFrame(columns=['Price'])
     for index, row in df_hardware.iterrows():
         # print(row["CPU cores"], row["RAM (MB)"])
         # print(df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1])
         l = df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1]
         # print(l['Type'])
-        pricesDf.loc[index] = [l['Type'], float(l['Price/Hr'][1:]) * 24 * 7 * 365]
+        pricesDf.loc[index] = [float(l['Price/Hr'][1:]) * 24 * 7 * 365]
         # pricesDict['Type'].append(l['Type'])
         # pricesDict['Price'].append(float(l['Price/Hr'][1:]) * 24 * 7 * 365)
         # # print(d)
