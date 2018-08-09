@@ -32,6 +32,7 @@
                 <thead>
                 <tr>
                     <th data-field="Department">Site</th>
+                    <th data-field="Year1">Current</th>
                     <th data-field="Year1">Year 1</th>
                     <th data-field="Year2">Year 2</th>
                     <th data-field="Year3">Year 3</th>
@@ -41,6 +42,7 @@
                 {% for i in items %}
                     <tr>
                         <td>{{ i.Department }}</td>
+                        <td>{{ i.Year0 }}
                         <td>{{ i.Year1 }}</td>
                         <td>{{ i.Year2 }}</td>
                         <td>{{ i.Year3 }}</td>
@@ -68,14 +70,15 @@
     <script type="text/javascript">
         data1 = [];
         {% for i in items %}
-            var str = '{{ i.Year1 }}'.replace('$', '').replace(/,/g, "") + ',' +
+            var str = '{{ i.Year0 }}'.replace('$', '').replace(/,/g, "") + ',' +
+                '{{ i.Year1 }}'.replace('$', '').replace(/,/g, "") + ',' +
                 +'{{ i.Year2 }}'.replace('$', '').replace(/,/g, "") + ',' +
                 +'{{ i.Year3 }}'.replace('$', '').replace(/,/g, "");
             console.log("I am here");
             data1.push(str)
         {% endfor %}
         console.log(data1[0])
-        labels = ['Year1', 'Year2', 'Year3'];
+        labels = ['Current', 'Year1', 'Year2', 'Year3'];
         dataCPU = [{% for i in items %}"{{ i.CPU }}", {% endfor %}];
         dataMemory = [{% for i in items %}"{{ i.Memory }}", {% endfor %}];
         var ctx = $('#myChart');
@@ -112,7 +115,7 @@
             options: {
                 title: {
                     display: true,
-                    text: 'World population per region (in millions)'
+                    text: 'Cost For Migration'
                 }
             }
         });
