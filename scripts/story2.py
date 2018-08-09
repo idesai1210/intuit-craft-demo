@@ -20,22 +20,12 @@ def Estimate(original_df, prices_df):
     logging.info(1)
     logging.info(datetime.datetime.now())
 
-    df_hardware['Price'] = df_hardware.apply(lambda row: valuation_formula(row['CPU cores'], row['RAM (MB)'],df_prices), axis=1)
-    # print(df_hardware)
+    df_hardware['Price'] = df_hardware.apply(lambda row: valuation_formula(row['CPU cores'], row['RAM (MB)'], df_prices), axis=1)
 
-    # pricesDf = pd.DataFrame(columns=['Price'])
-    # for index, row in df_hardware.iterrows():
-    #
-    #     # print(df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1])
-    #     l = df_prices[(df_prices.CPU <= row["CPU cores"]) | (df_prices['RAM (MB)'] <= row["RAM (MB)"])].iloc[-1]
-    #     # l = df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1]
-    #     # print(l['Type'])
-    #     pricesDf.loc[index] = [float(l['Price/Hr'][1:])]
 
     logging.info(2)
     logging.info(datetime.datetime.now())
-    # pricesDict = pd.DataFrame(pricesDict)
-    # pricesDict = pricesDf
+    
     logging.info(3)
     logging.info(datetime.datetime.now())
 
