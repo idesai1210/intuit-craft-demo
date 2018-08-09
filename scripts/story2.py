@@ -95,6 +95,4 @@ def Estimate(original_df, prices_df):
         logging.error("The result set is empty")
         logging.error(repr(e))
 
-    print(costList)
-
     return costList
