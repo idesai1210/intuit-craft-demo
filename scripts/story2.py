@@ -22,7 +22,7 @@ def Estimate(df_hardware, df_prices):
     logging.info(datetime.datetime.now())
 
     #df_hardware['Price'] = df_hardware.apply(lambda row: valuation_formula(row['CPU cores'], row['RAM (MB)'], df_prices), axis=1)
-    df_hardwareArray = np.array_split(df_hardware,4)
+    df_hardwareArray = np.array_split(df_hardware, 4)
 
     pool = Pool(processes=4)
     ans = pool.map(partial(mulitprocessFunc, prices=df_prices), df_hardwareArray)
