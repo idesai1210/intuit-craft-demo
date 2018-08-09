@@ -6,6 +6,11 @@ import datetime
 logging.basicConfig(filename='Story2.log', format='%(levelname)s:%(asctime)s:%(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
 
+def valuation_formula(cpu,ram,df_prices):
+    l = df_prices[(df_prices.CPU <= cpu) | (df_prices['RAM (MB)'] <= ram)].iloc[-1]
+    return float(l['Price/Hr'][1:])
+
+
 
 def Estimate(original_df, prices_df):
     # Load a sheet into a DataFrame by name: df_hardware
@@ -15,28 +20,31 @@ def Estimate(original_df, prices_df):
     logging.info(1)
     logging.info(datetime.datetime.now())
 
-    pricesDf = pd.DataFrame(columns=['Price'])
-    for index, row in df_hardware.iterrows():
+    df_hardware['Price'] = df_hardware.apply(lambda row: valuation_formula(row['CPU cores'], row['RAM (MB)'],df_prices), axis=1)
+    # print(df_hardware)
 
-        # print(df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1])
-        l = df_prices[(df_prices.CPU <= row["CPU cores"]) | (df_prices['RAM (MB)'] <= row["RAM (MB)"])].iloc[-1]
-        # l = df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1]
-        # print(l['Type'])
-        pricesDf.loc[index] = [float(l['Price/Hr'][1:])]
+    # pricesDf = pd.DataFrame(columns=['Price'])
+    # for index, row in df_hardware.iterrows():
+    #
+    #     # print(df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1])
+    #     l = df_prices[(df_prices.CPU <= row["CPU cores"]) | (df_prices['RAM (MB)'] <= row["RAM (MB)"])].iloc[-1]
+    #     # l = df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1]
+    #     # print(l['Type'])
+    #     pricesDf.loc[index] = [float(l['Price/Hr'][1:])]
 
     logging.info(2)
     logging.info(datetime.datetime.now())
     # pricesDict = pd.DataFrame(pricesDict)
-    pricesDict = pricesDf
+    # pricesDict = pricesDf
     logging.info(3)
     logging.info(datetime.datetime.now())
 
     try:
         # Join Dataframes on the primary key index
-        result = pd.concat([df_hardware, pricesDict], axis=1, sort=False)
+        # result = pd.concat([df_hardware, pricesDict], axis=1, sort=False)
 
         # Group By Department
-        groupByDept = result.groupby('Group')
+        groupByDept = df_hardware.groupby('Group')
 
         # Aggregate to calculate the sum
         rs = groupByDept['Price'].agg([np.sum])
