@@ -1,44 +1,46 @@
 import pandas as pd
 import numpy as np
 import logging
+import datetime
+from multiprocessing import Pool
+from functools import partial
 
 logging.basicConfig(filename='Story2.log', format='%(levelname)s:%(asctime)s:%(message)s',
                     datefmt='%m/%d/%Y %I:%M:%S %p', level=logging.DEBUG)
 
+def valuation_formula(cpu,ram,df_prices):
+    l = df_prices[(df_prices.CPU <= cpu) | (df_prices['RAM (MB)'] <= ram)].iloc[-1]
+    return float(l['Price/Hr'][1:])
 
-def Estimate(original_df, prices_df):
+def mulitprocessFunc(hardware, prices):
+    hardware['Price'] = hardware.apply(lambda row: valuation_formula(row['CPU cores'], row['RAM (MB)'], prices), axis=1)
+    return hardware
+
+def Estimate(df_hardware, df_prices):
     # Load a sheet into a DataFrame by name: df_hardware
-    df_hardware = original_df
+    logging.info(1)
+    logging.info(datetime.datetime.now())
 
-    df_prices = prices_df
+    #df_hardware['Price'] = df_hardware.apply(lambda row: valuation_formula(row['CPU cores'], row['RAM (MB)'], df_prices), axis=1)
+    df_hardwareArray = np.array_split(df_hardware, 4)
 
-    # print(df_hardware)
-    # print(df_prices)
-    # Create a temp Dataframe to Calculate prices
-    pricesDict = {}
-    pricesDict['Type'] = list()
-    pricesDict['Price/Hr'] = list()
-    pricesDict['Price'] = list()
+    pool = Pool(processes=4)
+    ans = pool.map(partial(mulitprocessFunc, prices=df_prices), df_hardwareArray)
+    df_hardware = pd.concat(ans)
 
-    for index, row in df_hardware.iterrows():
-        # print(row["CPU cores"], row["RAM (MB)"])
-        # print(df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1])
-        l = df_prices.loc[(df_prices['CPU'] <= row["CPU cores"]) | (df_prices["RAM (MB)"] <= row["RAM (MB)"])].iloc[-1]
-        # print(l['Type'])
-        pricesDict['Type'].append(l['Type'])
-        pricesDict['Price/Hr'].append(l['Price/Hr'])
-        pricesDict['Price'].append(float(l['Price/Hr'][1:]) * 24 * 7 * 365)
-        # print(d)
+    logging.info(2)
+    logging.info(datetime.datetime.now())
 
-    pricesDict = pd.DataFrame(pricesDict)
+    logging.info(3)
+    logging.info(datetime.datetime.now())
+
 
     try:
         # Join Dataframes on the primary key index
-        result = pd.concat([df_hardware, pricesDict], axis=1, sort=False)
 
         # Group By Department
-        groupByDept = result.groupby('Group')
 
+        groupByDept = df_hardware.groupby('Group')
         # Aggregate to calculate the sum
         rs = groupByDept['Price'].agg([np.sum])
         logging.info("Concatenation Successful")
@@ -47,10 +49,13 @@ def Estimate(original_df, prices_df):
         logging.error(repr(e))
     # print(type(rs))
     # Create JSON String to feed to web app
+    logging.info(4)
+    logging.info(datetime.datetime.now())
+
     costList = []
     try:
         for index, row in rs.iterrows():
-
+            row["sum"] = row["sum"]*24*7*365
             if index == 'Engineering':
                 year0 = row["sum"]
                 year1 = year0 * 0.10 + year0
@@ -94,5 +99,8 @@ def Estimate(original_df, prices_df):
     except Exception as e:
         logging.error("The result set is empty")
         logging.error(repr(e))
+
+    logging.info(5)
+    logging.info(datetime.datetime.now())
 
     return costList
