@@ -33,6 +33,7 @@
                     <th data-field="ID">ID</th>
                     <th data-field="Department">Department</th>
                 </tr>
+
                 </thead>
                 <tbody>
                 {% for i in items %}
@@ -40,6 +41,7 @@
                         <td>{{ i['ID'] }}</td>
                         <td>{{ i.Department }}</td>
                     </tr>
+
                 {% endfor %}
                 </tbody>
             </table>
