@@ -26,6 +26,8 @@ def Estimate(df_hardware, df_prices):
 
     pool = Pool(processes=4)
     ans = pool.map(partial(mulitprocessFunc, prices=df_prices), df_hardwareArray)
+    pool.close()
+    pool.join()
     df_hardware = pd.concat(ans)
 
     logging.info(2)

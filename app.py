@@ -13,7 +13,14 @@ xl_hardware = pd.ExcelFile(file_hardware)
 
 
 # Load a sheet into a DataFrame by name: df_hardware
-df_hardware = xl_hardware.parse('Page 1')
+df = xl_hardware.parse('Page 1')
+print(df)
+
+df_hardware = df[df["Group"] != "Marketing"]
+
+#print(df_hardware["Group"].unique())
+
+#print(df_hardware)
 
 # Assign prices filename to `file`
 file_prices = 'prices.xlsx'
